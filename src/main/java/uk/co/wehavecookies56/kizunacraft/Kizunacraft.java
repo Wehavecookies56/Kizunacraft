@@ -31,7 +31,7 @@ import uk.co.wehavecookies56.kizunacraft.proxies.CommonProxy;
 /**
  * Created by Toby on 16/05/2016.
  */
-@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.0")
+@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.0", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
 public class Kizunacraft {
 
     public static Item kiznaiverImplant;
