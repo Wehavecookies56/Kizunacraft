@@ -2,14 +2,14 @@
 {
   "modid": "kizunacraft",
   "name": "Kizunacraft",
-  "description": "Kiznaiver mod",
+  "description": "A mod inspired by the Spring 2016 anime series Kiznaiver",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["Wehavecookies56"],
   "credits": "",
-  "logoFile": "",
+  "logoFile": "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/logo.png",
   "screenshots": [],
   "dependencies": []
 }
