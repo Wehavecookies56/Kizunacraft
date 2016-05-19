@@ -31,7 +31,7 @@ import uk.co.wehavecookies56.kizunacraft.proxies.CommonProxy;
 /**
  * Created by Toby on 16/05/2016.
  */
-@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.0", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
+@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.1", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
 public class Kizunacraft {
 
     public static Item kiznaiverImplant;
@@ -59,7 +59,7 @@ public class Kizunacraft {
             "RRR",
             "CDC",
             "RRR",
-            'R', Items.redstone, 'C', Blocks.cactus, 'D', Items.diamond
+            'R', Items.REDSTONE, 'C', Blocks.CACTUS, 'D', Items.DIAMOND
         );
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new Kiznaivers());
@@ -102,6 +102,13 @@ public class Kizunacraft {
                         kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().remove(kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)));
                 }
             }
+        } else {
+            EntityPlayer original = event.getOriginal();
+            EntityPlayer current = event.getEntityPlayer();
+            Kiznaivers.IKiznaivers originalKiznaivers = original.getCapability(Kiznaivers.KIZNAIVERS, null);
+            Kiznaivers.IKiznaivers currentKiznaivers = current.getCapability(Kiznaivers.KIZNAIVERS, null);
+            currentKiznaivers.getKiznaivers().addAll(originalKiznaivers.getKiznaivers());
+            currentKiznaivers.setHasImplant(originalKiznaivers.hasImplant());
         }
     }
 
