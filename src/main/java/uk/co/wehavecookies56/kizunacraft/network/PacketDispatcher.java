@@ -15,6 +15,7 @@ public class PacketDispatcher {
 
 	public static final void registerPackets () {
 		registerMessage(KiznaiverSync.class);
+		registerMessage(ConfigSync.class);
 	}
 
 	private static final <T extends AbstractMessage<T> & IMessageHandler<T, IMessage>> void registerMessage (Class<T> clazz) {

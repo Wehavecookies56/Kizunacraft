@@ -34,7 +34,7 @@ public class Kiznaivers {
         List<String> getKiznaivers();
         boolean hasImplant();
 
-        void bindKiznaiver(String name);
+        boolean bindKiznaiver(String name);
         void setHasImplant(boolean implant);
     }
 
@@ -121,9 +121,12 @@ public class Kiznaivers {
         }
 
         @Override
-        public void bindKiznaiver(String name) {
-            if (!kiznaivers.contains(name))
+        public boolean bindKiznaiver(String name) {
+            if (!kiznaivers.contains(name) && kiznaivers.size()+1 <= ConfigHandler.maxKiznaivers)
                 kiznaivers.add(name);
+            else
+                return false;
+            return true;
         }
     }
 
