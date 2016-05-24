@@ -12,9 +12,14 @@ import java.io.File;
  */
 public class ConfigHandler {
 
+    //Main
     public static int maxKiznaivers;
 
+    //Client
+    public static boolean showGui;
+
     private static Configuration config;
+    private static Configuration clientConfig;
 
     public static void init (File file) {
         config = new Configuration(file);
@@ -22,19 +27,41 @@ public class ConfigHandler {
         config.load();
         loadConfigValues();
 
-        MinecraftForge.EVENT_BUS.register(new ConfigHandler());
+        MinecraftForge.EVENT_BUS.register(new ConfigChange());
+    }
+
+    public static void initClientConfig(File file) {
+        clientConfig = new Configuration(file);
+
+        clientConfig.load();
+        loadClientConfigValues();
+        MinecraftForge.EVENT_BUS.register(new ConfigChangeClient());
+    }
+
+    private static void loadClientConfigValues() {
+        showGui = clientConfig.get(Configuration.CATEGORY_CLIENT, "show hud elements", true, "Toggles the elements added to the hud by Kizunacraft").getBoolean();
+
+        if (clientConfig.hasChanged()) clientConfig.save();
     }
 
     private static void loadConfigValues() {
-        maxKiznaivers = config.get(Configuration.CATEGORY_GENERAL, "maximum kiznaivers", 7, "Use this to change the max number of Kiznaivers (Default 7)", 0, Integer.MAX_VALUE).getInt();
-
+        maxKiznaivers = config.get(Configuration.CATEGORY_GENERAL, "maximum kiznaivers", 7, "Sets the max number of Kiznaivers (Default 7)", 0, Integer.MAX_VALUE).getInt();
 
         if (config.hasChanged()) config.save();
     }
 
-    @SubscribeEvent
-    public void onConfigChange(ConfigChangedEvent event) {
-        if (event.getModID().equals("kizunacraft")) loadConfigValues();
+    public static class ConfigChange {
+        @SubscribeEvent
+        public void onConfigChange(ConfigChangedEvent event) {
+            if (event.getModID().equals("kizunacraft")) loadConfigValues();
+        }
+    }
+
+    public static class ConfigChangeClient {
+        @SubscribeEvent
+        public void onConfigChange(ConfigChangedEvent event) {
+            if (event.getModID().equals("kizunacraft")) loadClientConfigValues();
+        }
     }
 
 }
