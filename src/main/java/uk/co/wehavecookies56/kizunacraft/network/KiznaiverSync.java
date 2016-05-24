@@ -21,6 +21,7 @@ public class KiznaiverSync extends AbstractMessage.AbstractClientMessage<Kiznaiv
 
     public KiznaiverSync(Kiznaivers.IKiznaivers kiznaivers) {
         this.kiznaivers = kiznaivers.getKiznaivers();
+        this.implant = kiznaivers.hasImplant();
     }
 
     @Override

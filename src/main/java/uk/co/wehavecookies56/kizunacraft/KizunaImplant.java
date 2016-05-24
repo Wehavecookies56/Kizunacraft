@@ -36,8 +36,10 @@ public class KizunaImplant extends Item {
                 playerIn.addChatComponentMessage(new TextComponentString("You have connected yourself to the Kizuna system and have become a Kiznaiver, you can now be bound by your wounds"));
                 playerIn.addChatComponentMessage(new TextComponentString("Interact with others using the Kizuna system to be bound by their wounds"));
                 PacketDispatcher.sendTo(new KiznaiverSync(playerIn.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) playerIn);
-            } else
+            } else {
                 playerIn.addChatComponentMessage(new TextComponentString("You are already a Kiznaiver"));
+                PacketDispatcher.sendTo(new KiznaiverSync(playerIn.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) playerIn);
+            }
         }
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }

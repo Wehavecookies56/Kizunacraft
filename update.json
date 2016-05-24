@@ -1,8 +1,14 @@
 {
   "homepage": "http://minecraft.curseforge.com/projects/kizunacraft/files",
   "promos": {
+    "1.9.4-latest": "1.1",
+    "1.9.4-recommended": "1.1",
     "1.9-latest": "1.0",
     "1.9-recommended": "1.0"
+  },
+
+  "1.9.4": {
+    "1.1": "Fixed bug with leaving the end"
   },
 
   "1.9" : {
