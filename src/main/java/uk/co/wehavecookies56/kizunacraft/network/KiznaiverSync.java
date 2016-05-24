@@ -48,7 +48,5 @@ public class KiznaiverSync extends AbstractMessage.AbstractClientMessage<Kiznaiv
         for (int i = 0; i < kiznaivers.size(); i++) {
             kiznaiver.bindKiznaiver(kiznaivers.get(i));
         }
-        System.out.println(side);
-        System.out.println(implant);
     }
 }

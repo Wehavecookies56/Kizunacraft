@@ -112,7 +112,8 @@ public class Kizunacraft {
                 if (kiznaiver != null) {
                     kiznaiver.addChatComponentMessage(new TextComponentString("You're no longer bound by " + event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i) + "'s wounds"));
                     if (kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().contains(event.getOriginal().getDisplayNameString()))
-                        kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().remove(kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)));
+                        if (kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)) != -1)
+                            kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().remove(kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)));
                 }
             }
         } else {
