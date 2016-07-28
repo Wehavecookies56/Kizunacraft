@@ -36,7 +36,7 @@ import uk.co.wehavecookies56.kizunacraft.proxies.CommonProxy;
 /**
  * Created by Toby on 16/05/2016.
  */
-@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.3", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
+@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.4", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
 public class Kizunacraft {
 
     public static Item kiznaiverImplant;
@@ -98,7 +98,9 @@ public class Kizunacraft {
         if (!event.getEntity().worldObj.isRemote) {
             if (event.getEntity() instanceof EntityPlayer) {
                 if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
-                    event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(kiznaiverImplant)));
+                    if (!ConfigHandler.keepOnDeath) {
+                        event.getDrops().add(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(kiznaiverImplant)));
+                    }
                 }
             }
         }
@@ -106,7 +108,7 @@ public class Kizunacraft {
 
     @SubscribeEvent
     public void clone(PlayerEvent.Clone event) {
-        if (event.isWasDeath()) {
+        if (event.isWasDeath() && !ConfigHandler.keepOnDeath) {
             for (int i = 0; i < event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().size(); i++) {
                 EntityPlayer kiznaiver = event.getOriginal().getServer().getPlayerList().getPlayerByUsername(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i));
                 if (kiznaiver != null) {
@@ -124,6 +126,7 @@ public class Kizunacraft {
             currentKiznaivers.getKiznaivers().addAll(originalKiznaivers.getKiznaivers());
             currentKiznaivers.setHasImplant(originalKiznaivers.hasImplant());
         }
+        PacketDispatcher.sendTo(new KiznaiverSync(event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) event.getEntity());
     }
 
     @SubscribeEvent
@@ -153,6 +156,25 @@ public class Kizunacraft {
                             }
                         } else if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
                             event.getEntity().addChatMessage(new TextComponentString("This person is not a Kiznaiver therefore, they cannot be bound by your wounds."));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void interact(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getHand().equals(EnumHand.MAIN_HAND)) {
+            if (!event.getWorld().isRemote) {
+                if ((event.getEntityPlayer()).getHeldItemMainhand() == null) {
+                    if (event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.CACTUS) {
+                        if (event.getEntityPlayer().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
+                            EntityPlayer player = event.getEntityPlayer();
+                            player.getCapability(Kiznaivers.KIZNAIVERS, null).setHasImplant(false);
+                            player.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().clear();
+                            PacketDispatcher.sendTo(new KiznaiverSync(event.getEntityPlayer().getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) event.getEntityPlayer());
+                            event.getWorld().spawnEntityInWorld(new EntityItem(event.getEntity().worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(kiznaiverImplant)));
                         }
                     }
                 }

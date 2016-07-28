@@ -14,6 +14,7 @@ public class ConfigHandler {
 
     //Main
     public static int maxKiznaivers;
+    public static boolean keepOnDeath;
 
     //Client
     public static boolean showGui;
@@ -46,6 +47,7 @@ public class ConfigHandler {
 
     private static void loadConfigValues() {
         maxKiznaivers = config.get(Configuration.CATEGORY_GENERAL, "maximum kiznaivers", 7, "Sets the max number of Kiznaivers (Default 7)", 0, Integer.MAX_VALUE).getInt();
+        keepOnDeath = config.get(Configuration.CATEGORY_GENERAL, "keep kizuna system implant on death", false, "Toggles whether the kizuna implant will drop on death").getBoolean();
 
         if (config.hasChanged()) config.save();
     }
