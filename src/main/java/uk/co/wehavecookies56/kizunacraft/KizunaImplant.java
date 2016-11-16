@@ -19,29 +19,30 @@ import java.util.List;
 public class KizunaImplant extends Item {
 
     public KizunaImplant() {
-        this.setUnlocalizedName("kiznaiverImplant");
+        this.setUnlocalizedName("kiznaiverimplant");
         this.setCreativeTab(Kizunacraft.kizunacraft);
-        this.setRegistryName("kiznaiverImplant");
+        this.setRegistryName("kiznaiverimplant");
         this.setCreativeTab(Kizunacraft.kizunacraft);
         this.setMaxStackSize(1);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand) {
-        if (!worldIn.isRemote) {
-            if (!playerIn.getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
-                itemStackIn.stackSize = 0;
-                playerIn.inventory.removeStackFromSlot(playerIn.inventory.currentItem);
-                playerIn.getCapability(Kiznaivers.KIZNAIVERS, null).setHasImplant(true);
-                playerIn.addChatComponentMessage(new TextComponentString("You have connected yourself to the Kizuna system and have become a Kiznaiver, you can now be bound by your wounds"));
-                playerIn.addChatComponentMessage(new TextComponentString("Interact with others using the Kizuna system to be bound by their wounds"));
-                PacketDispatcher.sendTo(new KiznaiverSync(playerIn.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) playerIn);
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
+        if (!world.isRemote) {
+            if (!player.getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
+                //func_190920_e -> setStackSize
+                player.getActiveItemStack().func_190920_e(0);
+                player.inventory.removeStackFromSlot(player.inventory.currentItem);
+                player.getCapability(Kiznaivers.KIZNAIVERS, null).setHasImplant(true);
+                player.addChatMessage(new TextComponentString("You have connected yourself to the Kizuna system and have become a Kiznaiver, you can now be bound by your wounds"));
+                player.addChatMessage(new TextComponentString("Interact with others using the Kizuna system to be bound by their wounds"));
+                PacketDispatcher.sendTo(new KiznaiverSync(player.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) player);
             } else {
-                playerIn.addChatComponentMessage(new TextComponentString("You are already a Kiznaiver"));
-                PacketDispatcher.sendTo(new KiznaiverSync(playerIn.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) playerIn);
+                player.addChatMessage(new TextComponentString("You are already a Kiznaiver"));
+                PacketDispatcher.sendTo(new KiznaiverSync(player.getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) player);
             }
         }
-        return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
+        return super.onItemRightClick(world, player, hand);
     }
 
     @Override

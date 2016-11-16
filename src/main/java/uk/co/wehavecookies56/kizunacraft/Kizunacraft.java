@@ -51,8 +51,8 @@ public class Kizunacraft {
         PacketDispatcher.registerPackets();
         kizunacraft = new CreativeTabs("kizunacraft") {
             @Override
-            public Item getTabIconItem() {
-                return kiznaiverImplant;
+            public ItemStack getTabIconItem() {
+                return new ItemStack(kiznaiverImplant);
             }
         };
         kiznaiverImplant = new KizunaImplant();
@@ -112,7 +112,7 @@ public class Kizunacraft {
             for (int i = 0; i < event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().size(); i++) {
                 EntityPlayer kiznaiver = event.getOriginal().getServer().getPlayerList().getPlayerByUsername(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i));
                 if (kiznaiver != null) {
-                    kiznaiver.addChatComponentMessage(new TextComponentString("You're no longer bound by " + event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i) + "'s wounds"));
+                    kiznaiver.addChatMessage(new TextComponentString("You're no longer bound by " + event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i) + "'s wounds"));
                     if (kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().contains(event.getOriginal().getDisplayNameString()))
                         if (kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)) != -1)
                             kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().remove(kiznaiver.getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().indexOf(event.getOriginal().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().get(i)));
@@ -137,7 +137,7 @@ public class Kizunacraft {
                     if (event.getTarget() instanceof EntityPlayer) {
                         if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant() && event.getTarget().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
                             if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().contains(((EntityPlayer) event.getTarget()).getDisplayNameString())) {
-                                ((EntityPlayerMP) event.getEntity()).addChatComponentMessage(new TextComponentString("You are already bound by " + ((EntityPlayerMP) event.getTarget()).getDisplayNameString() + "'s wounds"));
+                                ((EntityPlayerMP) event.getEntity()).addChatMessage(new TextComponentString("You are already bound by " + ((EntityPlayerMP) event.getTarget()).getDisplayNameString() + "'s wounds"));
                             } else {
                                 if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().size() < ConfigHandler.maxKiznaivers) {
                                     if (event.getTarget().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().size() < ConfigHandler.maxKiznaivers) {
@@ -145,13 +145,13 @@ public class Kizunacraft {
                                         event.getTarget().getCapability(Kiznaivers.KIZNAIVERS, null).bindKiznaiver(((EntityPlayer) event.getEntity()).getDisplayNameString());
                                         PacketDispatcher.sendTo(new KiznaiverSync(event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) event.getEntity());
                                         PacketDispatcher.sendTo(new KiznaiverSync(event.getTarget().getCapability(Kiznaivers.KIZNAIVERS, null)), (EntityPlayerMP) event.getTarget());
-                                        ((EntityPlayerMP) event.getEntity()).addChatComponentMessage(new TextComponentString("You have been bound by " + ((EntityPlayerMP) event.getTarget()).getDisplayNameString() + "'s wounds"));
-                                        ((EntityPlayerMP) event.getTarget()).addChatComponentMessage(new TextComponentString("You have been bound by " + ((EntityPlayerMP) event.getEntity()).getDisplayNameString() + "'s wounds"));
+                                        ((EntityPlayerMP) event.getEntity()).addChatMessage(new TextComponentString("You have been bound by " + ((EntityPlayerMP) event.getTarget()).getDisplayNameString() + "'s wounds"));
+                                        ((EntityPlayerMP) event.getTarget()).addChatMessage(new TextComponentString("You have been bound by " + ((EntityPlayerMP) event.getEntity()).getDisplayNameString() + "'s wounds"));
                                     } else {
-                                        ((EntityPlayerMP) event.getEntity()).addChatComponentMessage(new TextComponentString(((EntityPlayer) event.getTarget()).getDisplayNameString() + "has reached the limit of Kiznaivers that can be bound at the same time"));
+                                        ((EntityPlayerMP) event.getEntity()).addChatMessage(new TextComponentString(((EntityPlayer) event.getTarget()).getDisplayNameString() + "has reached the limit of Kiznaivers that can be bound at the same time"));
                                     }
                                 } else {
-                                    ((EntityPlayerMP) event.getEntity()).addChatComponentMessage(new TextComponentString("You have reached the limit of Kiznaivers that can be bound at the same time"));
+                                    ((EntityPlayerMP) event.getEntity()).addChatMessage(new TextComponentString("You have reached the limit of Kiznaivers that can be bound at the same time"));
                                 }
                             }
                         } else if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
