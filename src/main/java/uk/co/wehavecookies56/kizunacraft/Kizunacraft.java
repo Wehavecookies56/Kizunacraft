@@ -36,7 +36,7 @@ import uk.co.wehavecookies56.kizunacraft.proxies.CommonProxy;
 /**
  * Created by Toby on 16/05/2016.
  */
-@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.4", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
+@Mod(modid = "kizunacraft", name = "Kizunacraft", version = "1.5", updateJSON = "https://raw.githubusercontent.com/Wehavecookies56/Kizunacraft/master/update.json")
 public class Kizunacraft {
 
     public static Item kiznaiverImplant;
@@ -133,7 +133,7 @@ public class Kizunacraft {
     public void interact(PlayerInteractEvent.EntityInteract event) {
         if (event.getHand().equals(EnumHand.MAIN_HAND)) {
             if (!event.getWorld().isRemote) {
-                if (((EntityPlayer) event.getEntity()).getHeldItemMainhand() == null) {
+                if (((EntityPlayer) event.getEntity()).getHeldItemMainhand().func_190926_b()) {
                     if (event.getTarget() instanceof EntityPlayer) {
                         if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant() && event.getTarget().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
                             if (event.getEntity().getCapability(Kiznaivers.KIZNAIVERS, null).getKiznaivers().contains(((EntityPlayer) event.getTarget()).getDisplayNameString())) {
@@ -167,7 +167,7 @@ public class Kizunacraft {
     public void interact(PlayerInteractEvent.RightClickBlock event) {
         if (event.getHand().equals(EnumHand.MAIN_HAND)) {
             if (!event.getWorld().isRemote) {
-                if ((event.getEntityPlayer()).getHeldItemMainhand() == null) {
+                if ((event.getEntityPlayer()).getHeldItemMainhand().func_190926_b()) {
                     if (event.getWorld().getBlockState(event.getPos()).getBlock() == Blocks.CACTUS) {
                         if (event.getEntityPlayer().getCapability(Kiznaivers.KIZNAIVERS, null).hasImplant()) {
                             EntityPlayer player = event.getEntityPlayer();
